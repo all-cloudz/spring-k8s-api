@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  docker:
+    compose:
+      file: deployments/local/dependencies/compose.yaml
+  ssl:
+    bundle:
+      pem:
+        k8s-client:
+          truststore:
+            certificate: deployments/local/server/k8s-client.crt
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+logging:
+  level:
+    root: info
+
+k8s:
+  control-plane:
+    host: ${K8S_API_SERVER}
+    port: ${K8S_API_SERVER_PORT}
+    user: ${K8S_USER}
+    token: ${K8S_TOKEN}
