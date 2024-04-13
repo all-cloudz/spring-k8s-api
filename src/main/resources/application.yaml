@@ -7,9 +7,6 @@ spring:
   config:
     activate:
       on-profile: local
-  docker:
-    compose:
-      file: deployments/local/dependencies/compose.yaml
   ssl:
     bundle:
       pem:
