@@ -9,5 +9,4 @@ class K8sApiApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
