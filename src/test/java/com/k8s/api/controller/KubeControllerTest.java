@@ -35,7 +35,7 @@ class KubeControllerTest {
     @DisplayName("노드 이름 조회 성공")
     void findNodeNames() {
         // given, when
-        try (FileInputStream input = new FileInputStream("test_data/node_infos.yaml")) {
+        try (FileInputStream input = new FileInputStream("test_data/node_infos.json")) {
             Mockito.when(kubeService.getNodes())
                    .thenReturn(Optional.of(
                            objectMapper.readValue(input, JsonNode.class)
@@ -53,7 +53,7 @@ class KubeControllerTest {
     @DisplayName("파드 이름 조회 성공")
     void findPodNames() {
         // given, when
-        try (FileInputStream input = new FileInputStream("test_data/pod_infos.yaml")) {
+        try (FileInputStream input = new FileInputStream("test_data/pod_infos.json")) {
             Mockito.when(kubeService.getPods("test-namespace"))
                    .thenReturn(Optional.of(
                            objectMapper.readValue(input, JsonNode.class)

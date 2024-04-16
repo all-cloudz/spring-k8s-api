@@ -31,7 +31,7 @@ public class KubeController {
     }
 
     @GetMapping("/{namespace}/pods/names")
-    public List<String> findPodNames(@PathVariable String namespace) {
+    public List<String> findPodNames(@PathVariable final String namespace) {
         final JsonNode items = kubeService.getPods(namespace)
                                           .orElseThrow()
                                           .get("items");
