@@ -16,4 +16,5 @@ then
   rm -f .default.env .mysql.env
 fi
 
-docker-compose convert
+docker-compose up -d
+rm -f .env
