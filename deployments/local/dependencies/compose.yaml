@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.3.0
-    user: ${UID}:${GID}
+    user: ${USER_ID}:${GROUP_ID}
     ports:
     - ${MYSQL_HOST_PORT}:3306
     volumes:
