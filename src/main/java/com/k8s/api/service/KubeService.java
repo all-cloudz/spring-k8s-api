@@ -8,6 +8,7 @@ import javax.net.ssl.SSLContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ssl.SslBundles;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -40,10 +41,13 @@ public class KubeService {
 
     public <T> Optional<T> getNodes(final Class<T> clazz) {
         return Optional.ofNullable(
-                kubeClient.get()
-                        .uri("/api/v1/nodes")
-                        .retrieve()
-                        .body(clazz)
+                doKubeRequest("/api/v1/nodes", clazz)
+        );
+    }
+
+    public <T> Optional<T> getNodes(final ParameterizedTypeReference<T> typeReference) {
+        return Optional.ofNullable(
+                doKubeRequest("/api/v1/nodes", typeReference)
         );
     }
 
@@ -53,10 +57,27 @@ public class KubeService {
 
     public <T> Optional<T> getPods(final String namespace, final Class<T> clazz) {
         return Optional.ofNullable(
-                kubeClient.get()
-                          .uri(STR."/api/v1/namespaces/\{namespace}/pods")
-                          .retrieve()
-                          .body(clazz)
+                doKubeRequest(STR."/api/v1/namespaces/\{namespace}/pods", clazz)
         );
+    }
+
+    public <T> Optional<T> getPods(final String namespace, final ParameterizedTypeReference<T> typeReference) {
+        return Optional.ofNullable(
+                doKubeRequest(STR."/api/v1/namespaces/\{namespace}/pods", typeReference)
+        );
+    }
+
+    private <T> T doKubeRequest(final String uri, final Class<T> clazz) {
+        return kubeClient.get()
+                         .uri(uri)
+                         .retrieve()
+                         .body(clazz);
+    }
+
+    private <T> T doKubeRequest(final String uri, final ParameterizedTypeReference<T> typeReference) {
+        return kubeClient.get()
+                         .uri(uri)
+                         .retrieve()
+                         .body(typeReference);
     }
 }
